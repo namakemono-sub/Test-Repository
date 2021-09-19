@@ -1,11 +1,14 @@
+from modules import colors
 import traceback
 import requests
 import json
 import sys
 import os
+
+from requests import models
 from modules.functions import lang
 
-__version__ = "1.0.1"
+__version__ = "1.0.0"
 
 def AddNewKey(data: dict, new: dict) -> dict:
     result = data.copy()
@@ -16,7 +19,7 @@ def AddNewKey(data: dict, new: dict) -> dict:
     return result
 
 def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
-    print(lang("bot", "Checking-update")).format(filename)
+    print(lang("bot", "Checking-update").format(filename))
     try:
         if "/" in filename:
             os.makedirs("/".join(filename.split("/")[:-1]), exist_ok=True)
@@ -35,7 +38,7 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
             else:
                 github = requests.get(githuburl + filename)
                 if github.status_code != 200:
-                    print(lang("bot", "update-no-data")).format(filename)
+                    print(lang("bot", "update-no-data").format(filename))
                     return None
                 github.encoding = github.apparent_encoding
                 github = github.text.encode(encoding='utf-8')
@@ -45,18 +48,18 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
                     current = f.read()
             github = requests.get(githuburl + filename)
             if github.status_code != 200:
-                print(lang("bot", "update-no-data")).format(filename)
+                print(lang("bot", "update-no-data").format(filename))
                 return None
             github.encoding = github.apparent_encoding
             github = github.text.encode(encoding='utf-8')
             if current.replace('\n','').replace('\r','').encode(encoding='utf-8') != github.decode().replace('\n','').replace('\r','').encode(encoding='utf-8'):
-                print(lang("bot", "update-on")).format(filename)
+                print(lang("bot", "update-on").format(filename))
                 with open(filename, "wb") as f:
                     f.write(github)
-                print(lang("bot", "done-update")).format(filename)
+                print(lang("bot", "done-update").format(filename))
                 return True
             else:
-                print(lang("bot", "no-update")).format(filename)
+                print(lang("bot", "no-update").format(filename))
                 return False
         elif extension == ".json":
             if os.path.isfile(filename):
@@ -65,7 +68,7 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
             else:
                 github = requests.get(githuburl + filename)
                 if github.status_code != 200:
-                    print(lang("bot", "update-no-data")).format(filename)
+                    print(lang("bot", "update-no-data").format(filename))
                     return None
                 github.encoding = github.apparent_encoding
                 github = github.text.encode(encoding='utf-8')
@@ -79,7 +82,7 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
                         current = json.load(f)
             github = requests.get(githuburl + filename)
             if github.status_code != 200:
-                print(lang("bot", "update-no-data")).format(filename)
+                print(lang("bot", "update-no-data").format(filename))
                 return None
             github.encoding = github.apparent_encoding
             github = github.text
@@ -87,24 +90,24 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
 
             if overwrite:
                 if current != github:
-                    print(lang("bot", "update-on")).format(filename)
+                    print(lang("bot", "update-on").format(filename))
                     with open(filename, "w", encoding="utf-8") as f:
                         json.dump(github, f, indent=4, ensure_ascii=False)
-                    print(lang("bot", "done-update")).format(filename)
+                    print(lang("bot", "done-update").format(filename))
                     return True
                 else:
-                    print(lang("bot", "no-update")).format(filename)
+                    print(lang("bot", "no-update").format(filename))
                     return False
             else:
                 new = AddNewKey(current, github)
                 if current != new:
-                    print(lang("bot", "update-on")).format(filename)
+                    print(lang("bot", "update-on").format(filename))
                     with open(filename, 'w', encoding="utf-8") as f:
                         json.dump(new, f, indent=4, ensure_ascii=False)
-                    print(lang("bot", "done-update")).format(filename)
+                    print(lang("bot", "done-update").format(filename))
                     return True
                 else:
-                    print(lang("bot", "no-update")).format(filename)
+                    print(lang("bot", "no-update").format(filename))
                     return False
         elif extension == ".png":
             if os.path.isfile(filename):
@@ -113,7 +116,7 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
             else:
                 github = requests.get(githuburl + filename)
                 if github.status_code != 200:
-                    print(lang("bot", "update-no-data")).format(filename)
+                    print(lang("bot", "update-no-data").format(filename))
                     return None
                 github = github.content
                 with open(filename, "wb") as f:
@@ -122,17 +125,17 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
                     current = f.read()
             github = requests.get(githuburl + filename)
             if github.status_code != 200:
-                print(lang("bot", "update-no-data")).format(filename)
+                print(lang("bot", "update-no-data").format(filename))
                 return None
             github = github.content
             if current != github:
-                print(lang("bot", "update-on")).format(filename)
+                print(lang("bot", "update-on").format(filename))
                 with open(filename, "wb") as f:
                     f.write(github)
-                print(lang("bot", "done-update")).format(filename)
+                print(lang("bot", "done-update").format(filename))
                 return True
             else:
-                print(lang("bot", "no-update")).format(filename)
+                print(lang("bot", "no-update").format(filename))
                 return False
         else:
             print(lang("bot", "extension-not")).format(extension)
@@ -144,11 +147,12 @@ def CheckUpdate(filename: str, githuburl: str, overwrite: bool = False) -> bool:
 
 
 def updates_run(bran):
+    print(colors.yellow("'modules/auto_updater.py' のアップデートを確認中..."))
 
     if bran == "main":
         githuburl = "https://raw.githubusercontent.com/namakemono-san/Fortnite-Simplebot/main/"
     elif bran == "dev":
-        githuburl = "https://raw.githubusercontent.com/namakemono-san/Fortnite-Simplebot/dev/"
+        githuburl = "https://raw.githubusercontent.com/namakemono-sub/Test-Repository/main/"
 
     data = requests.get(githuburl + "modules/auto_updater.py").text
     var = {}
