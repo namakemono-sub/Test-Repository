@@ -8,7 +8,7 @@ import os
 from requests import models
 from modules.functions import lang
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 
 def AddNewKey(data: dict, new: dict) -> dict:
     result = data.copy()
