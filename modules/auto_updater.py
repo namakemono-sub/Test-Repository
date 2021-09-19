@@ -5,7 +5,7 @@ import sys
 import os
 from modules.functions import lang
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 def AddNewKey(data: dict, new: dict) -> dict:
     result = data.copy()
