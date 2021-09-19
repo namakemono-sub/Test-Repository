@@ -1,16 +1,14 @@
 {
     "bot": {
         "python-not-3.9": "\n非推奨のPythonバージョンが導入されています\n推奨: Python 3.9\n使用中: Python {}\n",
-        "get-updates": "アップデートの確認中...\n",
-        "get-updates-on": "アップデートを確認しました。バージョン: {0}\n",
-        "update-ok": "バージョン{0}へのアップデートが完了しました。\n",
-        "update-failed": "更新に失敗しました。\n",
-        "extension-not": "拡張子 {0} は対応していません。\n",
-        "no-update": "{0} の更新はありません。\n",
-        "done-update": "{0} の更新が完了しました。\n",
-        "update-on": "{0} の更新を確認しました。\n",
-        "update-no-data": "{0} のデータを取得できませんでした。\n",
-        "Checking-update": "{0} の更新を確認中...\n",
+        "get-updates": "アップデートの確認中...",
+        "get-updates-on": "\nアップデートを確認しました。バージョン: {0}\n",
+        "update-ok": "バージョン{0}へのアップデートが完了しました。",
+        "update-failed": "アップデートに失敗しました。",
+        "extension-not": "拡張子 {0} は対応していません。",
+        "update-on": "{0} のアップデートを確認しました",
+        "update-no-data": "{0} のデータを取得できませんでした。",
+        "Checking-update": "\n{0} のアップデートを確認中...",
         "reboot-updates": "auto_updater.py の更新を確認しました。アップデーターをもう一度起動します..."
     }
 }
